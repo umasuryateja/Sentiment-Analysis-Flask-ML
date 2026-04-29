@@ -100,9 +100,19 @@ http://127.0.0.1:5000/
 
 ---
 
+## 📸 Screenshots
+
+**Positive Result**
+![Positive Sentiment](positive.png)
+
+**Negative Result**
+![Negative Sentiment](negative.png)
+
+---
+
 ## 🎯 Key Learnings
 
-- Importance of text preprocessing in NLP
+
 - Feature extraction using TF-IDF Vectorizer
 - Model training using Logistic Regression
 - Handling class imbalance with balanced class weights
