@@ -13,12 +13,14 @@ def home():
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    text = request.form["text"]
+    text = request.form.get("text", "").strip()
+    if not text:
+        return render_template("index.html", user_text="", prediction_text=None)
 
     cleaned = vectorizer.transform([text])
     prediction = model.predict(cleaned)[0]
 
-    # 0 = Positive, 1 = Negative
+    # Label mapping: 0 = Positive (normal), 1 = Negative (hate speech)
     result = "Positive 😊" if prediction == 0 else "Negative 😡"
 
     return render_template(

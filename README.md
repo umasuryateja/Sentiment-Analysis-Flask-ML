@@ -1,39 +1,50 @@
-💬 Sentiment Analysis Web App (ML + Flask)
-This project is a Machine Learning-based web application that predicts the sentiment of tweets (Positive 😊 or Negative 😡) using Natural Language Processing (NLP).
+# 💬 Sentiment Analysis Web App (ML + Flask)
+
+A Machine Learning-based web application that predicts the sentiment of text (Positive 😊 or Negative 😡) using Natural Language Processing (NLP), built with Flask.
 
 ---
 
-🚀 Features
+## 🚀 Features
 
-🔮 Real-time sentiment prediction
-🧠 Machine Learning model using Naive Bayes
-🧹 Text preprocessing (cleaning, stopwords removal)
-🌐 Flask-based web application
-🎨 Responsive UI with Bootstrap
-✨ Animated result display
-🔄 Clear button to reset input and result
+- 🔮 Real-time sentiment prediction
+- 🧠 Logistic Regression model with TF-IDF vectorization
+- 🧹 Advanced text preprocessing (URLs, mentions, stopwords, negation-aware)
+- 🌐 Flask-based web application
+- 🎨 Responsive dark-mode UI
+- ✨ Animated result display
+- 🔄 Clear button to reset input and result
+
+---
+
+## 🛠 Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Language | Python 3 |
+| ML Model | Logistic Regression |
+| Vectorizer | TF-IDF (bigrams) |
+| NLP | NLTK, scikit-learn |
+| Data | Pandas, NumPy |
+| Web Framework | Flask |
+| Frontend | HTML, CSS |
 
 ---
 
-🛠 Tech Stack
-Python
-Pandas, NumPy
-Scikit-learn
-NLTK
-Flask
-HTML, CSS, Bootstrap
+## 📊 How It Works
 
----
-📊 How It Works
-1. Load Twitter dataset
-2. Clean text (remove URLs, special characters, stopwords)
-3. Convert text into numerical features using CountVectorizer
-4. Train Naive Bayes classifier
+1. Load Twitter dataset (`twitter.csv`)
+2. Clean text (remove URLs, mentions, special characters, stopwords)
+3. Convert text into numerical features using **TF-IDF Vectorizer** (unigrams + bigrams)
+4. Train **Logistic Regression** classifier with balanced class weights
 5. Save model using pickle
 6. Build Flask app for user input
 7. Predict sentiment and display result
+
 ---
-📁 Project Structure
+
+## 📁 Project Structure
+
+```
 Sentiment-Analysis-Flask-ML/
 │── app.py
 │── train.py
@@ -42,66 +53,77 @@ Sentiment-Analysis-Flask-ML/
 │── vectorizer.pkl
 │── requirements.txt
 │── README.md
-
 └── templates/
-└── index.html
+    └── index.html
+```
+
 ---
-⚙️ Installation & Setup
-1. Clone Repository
+
+## ⚙️ Installation & Setup
+
+### 1. Clone Repository
 ```bash
 git clone https://github.com/umasuryateja/Sentiment-Analysis-Flask-ML.git
 cd Sentiment-Analysis-Flask-ML
 ```
-2. Install Dependencies
+
+### 2. Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
-3. Train Model
+
+### 3. Train Model
 ```bash
 python train.py
 ```
-4. Run App
+
+### 4. Run App
 ```bash
 python app.py
 ```
-5. Open Browser
+
+### 5. Open Browser
+```
 http://127.0.0.1:5000/
----
-🧪 Sample Inputs
+```
 
-| Input Text               | Output      |
-| ------------------------ | ----------- |
-| I love this product      | Positive 😊 |
+---
+
+## 🧪 Sample Inputs
+
+| Input Text | Output |
+| --------------------------------- | ----------- |
+| I love this product | Positive 😊 |
 | This is terrible service | Negative 😡 |
----
-SCREENSHOTS
-
-positive
-<img width="2050" height="910" alt="positive" src="https://github.com/user-attachments/assets/10795371-362f-440c-93fd-b37bb7f0650b" />
-
-negative
-<img width="2111" height="1182" alt="Negative" src="https://github.com/user-attachments/assets/19bea843-90f1-4860-9a28-2155b2a48558" />
+| I hate everything about this | Negative 😡 |
+| This is absolutely amazing! | Positive 😊 |
 
 ---
 
-🎯 Key Learnings
+## 🎯 Key Learnings
 
-Importance of text preprocessing in NLP
-Feature extraction using CountVectorizer
-Model training using Naive Bayes
-Integrating ML model with Flask
-Building interactive web applications
+- Importance of text preprocessing in NLP
+- Feature extraction using TF-IDF Vectorizer
+- Model training using Logistic Regression
+- Handling class imbalance with balanced class weights
+- Integrating ML model with Flask
+- Building interactive web applications
+
+---
+
+## 🚀 Future Improvements
+
+- 📊 Add confidence score display
+- 🌳 Use advanced models (Random Forest, LSTM, BERT)
+- 📍 Improve handling of sarcasm
+- 🌐 Deploy online (Render / Railway)
 
 ---
 
-🚀 Future Improvements
-📊 Add accuracy display
-🌳 Use advanced models (Random Forest, LSTM, BERT)
-📍 Improve handling of sarcasm
-🌐 Deploy online
+## 🔗 GitHub
+
+[https://github.com/umasuryateja/Sentiment-Analysis-Flask-ML](https://github.com/umasuryateja/Sentiment-Analysis-Flask-ML)
 
 ---
+
 ⭐ If you like this project, give it a star!
-
----
-🔗 GitHub: https://github.com/umasuryateja/Sentiment-Analysis-Flask-ML
