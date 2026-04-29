@@ -18,10 +18,8 @@ def predict():
     cleaned = vectorizer.transform([text])
     prediction = model.predict(cleaned)[0]
 
-    # 🔴 NEW LOGIC
-    # 0 = Positive
-    # 1 = Negative
-    result = "Negative 😡" if prediction == 0 else "Positive 😊"
+    # 0 = Positive, 1 = Negative
+    result = "Positive 😊" if prediction == 0 else "Negative 😡"
 
     return render_template(
         "index.html",
