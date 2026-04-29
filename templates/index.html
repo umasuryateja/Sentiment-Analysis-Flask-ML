@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sentiment Analysis — ML + Flask</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f13;
+      --surface: #1a1a24;
+      --surface2: #22222f;
+      --border: #2e2e3e;
+      --text: #e8e8f0;
+      --muted: #8888aa;
+      --pos: #10b981;
+      --neg: #ef4444;
+      --accent: #7c6ff7;
+      --accent2: #a78bfa;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 60px;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #7c6ff720, #a78bfa20);
+      border: 1px solid #7c6ff740;
+      color: var(--accent2);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #e8e8f0 30%, var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .subtitle {
+      color: var(--muted);
+      font-size: 1rem;
+      font-weight: 400;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 40px;
+      width: 100%;
+      max-width: 680px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      padding: 16px 18px;
+      resize: vertical;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    textarea::placeholder { color: #55556a; }
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px #7c6ff720;
+    }
+
+    .char-count {
+      text-align: right;
+      font-size: 0.75rem;
+      color: #55556a;
+      margin-top: 6px;
+    }
+
+    /* ── Buttons ── */
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 22px;
+    }
+    button {
+      flex: 1;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+    }
+    button:active { transform: scale(0.97); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      box-shadow: 0 6px 20px #7c6ff730;
+    }
+    .btn-primary:hover { box-shadow: 0 8px 28px #7c6ff750; opacity: 0.92; }
+
+    .btn-clear {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      flex: 0 0 auto;
+      padding: 14px 20px;
+    }
+    .btn-clear:hover { color: var(--text); border-color: #555; }
+
+    /* ── Result ── */
+    .result-wrapper {
+      margin-top: 28px;
+      animation: slideUp 0.4s ease;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-box {
+      border-radius: 14px;
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border: 1px solid transparent;
+    }
+    .result-box.positive {
+      background: #10b98114;
+      border-color: #10b98130;
+    }
+    .result-box.negative {
+      background: #ef444414;
+      border-color: #ef444430;
+    }
+
+    .result-emoji {
+      font-size: 3rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .result-label {
+      font-size: 1.5rem;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+    .result-box.positive .result-label { color: var(--pos); }
+    .result-box.negative .result-label { color: var(--neg); }
+
+    .result-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ── Your text echo ── */
+    .your-text {
+      margin-top: 18px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .your-text span { color: var(--text); font-style: italic; }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 48px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #44445a;
+    }
+    footer a { color: var(--accent2); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">🤖 NLP · Naive Bayes · Flask</div>
+    <h1>Sentiment Analysis</h1>
+    <p class="subtitle">Predict whether a tweet or sentence is <strong>Positive</strong> or <strong>Negative</strong> using a trained ML model.</p>
+  </header>
+
+  <div class="card">
+    <form method="POST" action="/predict" id="sentimentForm">
+      <label for="textInput">Enter your text</label>
+      <textarea
+        id="textInput"
+        name="text"
+        placeholder="Type a tweet or sentence… e.g. 'I love this product so much!'"
+        maxlength="500"
+        oninput="updateCount(this)"
+        required
+      >{{ user_text }}</textarea>
+      <div class="char-count"><span id="charCount">{{ user_text|length }}</span> / 500</div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn-primary" id="analyzeBtn">
+          ✨ Analyze Sentiment
+        </button>
+        <button type="button" class="btn-clear" onclick="clearForm()" id="clearBtn">
+          ✕ Clear
+        </button>
+      </div>
+    </form>
+
+    {% if prediction_text %}
+    <div class="result-wrapper">
+      {% if "Positive" in prediction_text %}
+      <div class="result-box positive">
+        <div class="result-emoji">😊</div>
+        <div>
+          <div class="result-label">Positive Sentiment</div>
+          <div class="result-desc">The model detected an optimistic or happy tone.</div>
+        </div>
+      </div>
+      {% else %}
+      <div class="result-box negative">
+        <div class="result-emoji">😡</div>
+        <div>
+          <div class="result-label">Negative Sentiment</div>
+          <div class="result-desc">The model detected a negative or critical tone.</div>
+        </div>
+      </div>
+      {% endif %}
+
+      {% if user_text %}
+      <div class="your-text">Your text: <span>"{{ user_text }}"</span></div>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+
+  <footer>
+    Built with Flask &amp; Scikit-learn ·
+    <a href="https://github.com/umasuryateja/Sentiment-Analysis-Flask-ML" target="_blank">View on GitHub ↗</a>
+  </footer>
+
+  <script>
+    function updateCount(el) {
+      document.getElementById('charCount').textContent = el.value.length;
+    }
+    function clearForm() {
+      document.getElementById('textInput').value = '';
+      document.getElementById('charCount').textContent = '0';
+    }
+  </script>
+</body>
+</html>

@@ -34,7 +34,7 @@ HTML, CSS, Bootstrap
 7. Predict sentiment and display result
 ---
 📁 Project Structure
-sentiment-analysis-flask-ml/
+Sentiment-Analysis-Flask-ML/
 │── app.py
 │── train.py
 │── twitter.csv
@@ -49,8 +49,8 @@ sentiment-analysis-flask-ml/
 ⚙️ Installation & Setup
 1. Clone Repository
 ```bash
-git clone https://github.com/your-username/sentiment-analysis-flask-ml.git
-cd sentiment-analysis-flask-ml
+git clone https://github.com/umasuryateja/Sentiment-Analysis-Flask-ML.git
+cd Sentiment-Analysis-Flask-ML
 ```
 2. Install Dependencies
 ```bash
@@ -102,3 +102,6 @@ Building interactive web applications
 
 ---
 ⭐ If you like this project, give it a star!
+
+---
+🔗 GitHub: https://github.com/umasuryateja/Sentiment-Analysis-Flask-ML
