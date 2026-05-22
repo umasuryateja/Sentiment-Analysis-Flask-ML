@@ -6,13 +6,13 @@ A Machine Learning-based web application that predicts the sentiment of text (Po
 
 ## 🚀 Features
 
-- 🔮 Real-time sentiment prediction
-- 🧠 Logistic Regression model with TF-IDF vectorization
-- 🧹 Advanced text preprocessing (URLs, mentions, stopwords, negation-aware)
-- 🌐 Flask-based web application
-- 🎨 Responsive dark-mode UI
-- ✨ Animated result display
-- 🔄 Clear button to reset input and result
+- 🔮 Real-time sentiment prediction.
+- 🧠 Logistic Regression model with TF-IDF vectorization.
+- 🧹 Advanced text preprocessing (URLs, mentions, stopwords, negation-aware).
+- 🌐 Flask-based web application.
+- 🎨 Responsive dark-mode UI.
+- ✨ Animated result display.
+- 🔄 Clear button to reset input and result.
 
 ---
 
