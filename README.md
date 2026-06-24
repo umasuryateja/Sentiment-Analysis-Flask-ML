@@ -14,8 +14,6 @@ A Machine Learning-based web application that predicts the sentiment of text (Po
 - ✨ Animated result display.
 - 🔄 Clear button to reset input and result.
 
----
-
 ## 🛠 Tech Stack
 
 | Layer | Technology |
